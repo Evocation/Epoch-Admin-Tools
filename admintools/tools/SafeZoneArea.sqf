@@ -19,13 +19,10 @@ if (isNil "areaGodMode") then {areaGodMode = true;} else {areaGodMode = !areaGod
 		titleText ["You have entered an Admin Safe Zone!","PLAIN DOWN"]; titleFadeOut 3;
 		fnc_usec_damageHandler = {};
 		player_zombieCheck = {};
+		player_zombieAttack = {};
 		player allowDamage false;
 		player removeAllEventhandlers "handleDamage";
 		player addEventhandler ["handleDamage", {false}];
-		SafezoneFiredEvent = player addEventHandler ["Fired", {
-			titleText ["You can not fire your weapon in a safe zone.","PLAIN"]; titleFadeOut 4;
-			NearestObject [_this select 0,_this select 4] setPos[0,0,0];
-		}];
 
 		SafezoneSkinChange = [] spawn {
 			_skin = typeOf player;
@@ -38,13 +35,13 @@ if (isNil "areaGodMode") then {areaGodMode = true;} else {areaGodMode = !areaGod
 	SafeZoneDisable = {
 		inSafeZone = false;
 		titleText ["You have left an Admin Safe zone!","PLAIN DOWN"]; titleFadeOut 3;
-		fnc_usec_damageHandler = compile preprocessFileLineNumbers '\z\addons\dayz_code\compile\fn_damageHandler.sqf';
-		player_zombieCheck = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\player_zombieCheck.sqf";
 		terminate SafezoneSkinChange;
-		player allowDamage true;
-		player removeAllEventHandlers 'HandleDamage';
-		player addeventhandler ['HandleDamage',{_this call fnc_usec_damageHandler;} ];
-		player removeEventHandler ["Fired", SafezoneFiredEvent];
+		player_zombieCheck = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\player_zombieCheck.sqf";
+		player_zombieAttack = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\player_zombieAttack.sqf";
+		fnc_usec_damageHandler = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\fn_damageHandler.sqf";
+		_thePlayer addEventHandler ["handleDamage",{true}];
+		_thePlayer removeAllEventHandlers "handleDamage";
+		_thePlayer allowDamage true;
 	};
 	LocalTriggerCreate = {
 		triggerSafeZone = createTrigger ["EmptyDetector", zonePosition];
