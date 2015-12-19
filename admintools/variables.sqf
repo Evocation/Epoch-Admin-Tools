@@ -6,6 +6,7 @@ AdminAndModList = AdminList + ModList; // Add all admin/mod into one list for ea
 /***** Set variables *****/
 tempList = []; // Initialize templist
 helpQueue = []; // Initialize help queue
+broadcastToolUse = false;
 
 
 /****************** Server Public Variables ******************/
