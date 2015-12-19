@@ -6,6 +6,7 @@ AdminAndModList = AdminList + ModList; // Add all admin/mod into one list for ea
 /***** Set variables *****/
 tempList = []; // Initialize templist
 helpQueue = []; // Initialize help queue
+radiusIsSet = false;
 
 /*
 	Determines default on or off for admin tools menu
